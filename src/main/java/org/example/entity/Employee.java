@@ -11,6 +11,9 @@ public class Employee {
         this.phone = phone;
     }
 
+    public Employee(){
+    }
+
     public int getAge() {
         return age;
     }
