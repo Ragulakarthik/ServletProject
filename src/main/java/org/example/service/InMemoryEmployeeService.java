@@ -22,7 +22,7 @@ public class InMemoryEmployeeService {
         resp.getWriter().write(objectMapper.writeValueAsString(emp));
     }
 
-    public void getListOfEmployees(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void getListOfEmployees(HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         resp.getWriter().write(objectMapper.writeValueAsString(listOfEmp));
     }
