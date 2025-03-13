@@ -8,6 +8,21 @@
         <servlet-name>EmployeeServlet</servlet-name>
         <servlet-class>org.example.servlets.EmployeeServlet</servlet-class>
     </servlet>
+
+    <filter>
+        <filter-name>BasicAuthFilter</filter-name>
+        <filter-class>org.example.filters.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>BasicAuthFilter</filter-name>
+        <url-pattern>/employee</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
     <servlet-mapping>
         <servlet-name>EmployeeServlet</servlet-name>
         <url-pattern>/employee</url-pattern>
