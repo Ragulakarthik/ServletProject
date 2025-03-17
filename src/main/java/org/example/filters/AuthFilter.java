@@ -15,7 +15,7 @@ public class AuthFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpSession session = req.getSession(false);
         if (session == null) {
-            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().write("Please Login");
         } else {
             filterChain.doFilter(req, resp);

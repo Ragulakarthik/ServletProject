@@ -27,6 +27,7 @@ public class DBEmployeeService {
 
             int rowsEffected = stmt.executeUpdate();
             if (rowsEffected > 0) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");
                 resp.getWriter().write("Inserted " + rowsEffected + " rows");
             } else {
@@ -56,8 +57,10 @@ public class DBEmployeeService {
             }
             resp.setContentType("application/json");
             if (employeeList.isEmpty()) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 resp.getWriter().write("{\"message\": \"No employees found\"}");
             } else {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 resp.getWriter().write(objectMapper.writeValueAsString(employeeList));
             }
         } catch (Exception e) {
@@ -80,9 +83,11 @@ public class DBEmployeeService {
 
             int rowsEffected = stmt.executeUpdate();
             if (rowsEffected > 0) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");
                 resp.getWriter().write("Updated " + rowsEffected + " rows");
             } else {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 resp.setContentType("text/plain");
                 resp.getWriter().write("Employee with empId " + emp.getEmpId() + " not found");
             }
@@ -101,9 +106,11 @@ public class DBEmployeeService {
             stmt.setLong(1, empId);
             int rowEffected = stmt.executeUpdate();
             if (rowEffected > 0) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");
                 resp.getWriter().write("Deleted " + rowEffected + " rows");
             } else {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 resp.setContentType("text/plain");
                 resp.getWriter().write("Employee with " + empId + " empId not found.");
             }
