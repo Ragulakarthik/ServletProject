@@ -5,8 +5,12 @@
          https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
     <servlet>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <servlet-class>org.example.servlets.EmployeeServlet</servlet-class>
+        <servlet-name>DBEmployeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.DBEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InMemoryEmployeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.InMemoryEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -18,8 +22,12 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <url-pattern>/employee</url-pattern>
+        <servlet-name>DBEmployeeServlet</servlet-name>
+        <url-pattern>/dbEmployee</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InMemoryEmployeeServlet</servlet-name>
+        <url-pattern>/inMemoryEmployee</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -37,7 +45,7 @@
 
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
-        <url-pattern>/employee</url-pattern>
+        <url-pattern>/dbEmployee</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
