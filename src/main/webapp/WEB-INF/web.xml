@@ -51,4 +51,8 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
+    
+    <listener>
+        <listener-class>org.example.listeners.AppListener</listener-class>
+    </listener>
 </web-app>
