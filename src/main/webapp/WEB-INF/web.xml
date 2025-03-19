@@ -5,11 +5,50 @@
          https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
     <servlet>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <servlet-class>org.example.servlets.EmployeeServlet</servlet-class>
+        <servlet-name>DBEmployeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.DBEmployeeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InMemoryEmployeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.InMemoryEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>org.example.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>org.example.servlets.LogoutServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <url-pattern>/employee</url-pattern>
+        <servlet-name>DBEmployeeServlet</servlet-name>
+        <url-pattern>/dbEmployee</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InMemoryEmployeeServlet</servlet-name>
+        <url-pattern>/inMemoryEmployee</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>org.example.filters.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/dbEmployee</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 </web-app>
