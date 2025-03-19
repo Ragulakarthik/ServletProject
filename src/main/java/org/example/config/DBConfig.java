@@ -1,13 +1,27 @@
 package org.example.config;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBConfig {
-    private static final String URL = "jdbc:mysql://localhost:3306/Employee";
-    private static final String USER = "karthikragula";
-    private static final String PASSWORD = "R.Karthik@04";
-
+    private static final String URL;
+    private static final String USER;
+    private static final String PASSWORD;
     static {
+        Properties properties = new Properties();
+        try (InputStream input = DBConfig.class.getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                throw new RuntimeException("Unable to find db.properties");
+            }
+            properties.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load database properties", e);
+        }
+        URL = properties.getProperty("db.URL");
+        USER = properties.getProperty("db.USER");
+        PASSWORD = properties.getProperty("db.PASSWORD");
         initializeDatabase();
     }
 
