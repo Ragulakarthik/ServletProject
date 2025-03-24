@@ -5,10 +5,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.entity.DataBase;
 import org.example.entity.User;
 import org.example.serviceImpl.LoginServiceImpl;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class LoginServlet extends HttpServlet {
     LoginServiceImpl loginService = new LoginServiceImpl();
@@ -24,6 +27,8 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
             User user = objectMapper.readValue(req.getInputStream(), User.class);
+            System.out.println(user.toString());
+            System.out.println(DataBase.URL+" "+DataBase.PASSWORD+" "+DataBase.USER);
             if (loginService.loginAuthenticate(user)) {
                 session = req.getSession();
                 session.setAttribute("userName", user.getUserName());

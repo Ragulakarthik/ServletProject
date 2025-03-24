@@ -1,34 +1,14 @@
 package org.example.config;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.example.entity.DataBase;
 import java.sql.*;
-import java.util.Properties;
 
 public class DBConfig {
-    private static final String URL;
-    private static final String USER;
-    private static final String PASSWORD;
-    static {
-        Properties properties = new Properties();
-        try (InputStream input = DBConfig.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (input == null) {
-                throw new RuntimeException("Unable to find db.properties");
-            }
-            properties.load(input);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load database properties", e);
-        }
-        URL = properties.getProperty("db.URL");
-        USER = properties.getProperty("db.USER");
-        PASSWORD = properties.getProperty("db.PASSWORD");
-        initializeDatabase();
-    }
 
     public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(DataBase.URL, DataBase.USER, DataBase.PASSWORD);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Database connection failed!", e);

@@ -1,9 +1,8 @@
 package org.example.serviceImpl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.config.DBConfig;
 import org.example.entity.Employee;
-import org.example.service.DBEmployeeService;
+import org.example.service.EmployeeService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,12 +10,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBEmployeeServiceImpl implements DBEmployeeService {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+public class DBEmployeeServiceImpl implements EmployeeService {
 
-    public int addNewEmployee(Employee employee) {
+    public long addNewEmployee(Employee employee) {
         String sql = "Insert into employee (name, age, phone) values(?,?,?)";
-        int rowsEffected = -1;
+        long rowsEffected = -1;
         try (Connection conn = DBConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, employee.getName());
@@ -49,9 +47,9 @@ public class DBEmployeeServiceImpl implements DBEmployeeService {
         return employeeList;
     }
 
-    public int updateEmployee(Employee employee) {
+    public long updateEmployee(Employee employee) {
         String sql = "update employee set name = ?, age =?, phone =? where empId= ?";
-        int rowsEffected = -1;
+        long rowsEffected = -1;
         try (Connection conn = DBConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, employee.getName());
@@ -65,9 +63,9 @@ public class DBEmployeeServiceImpl implements DBEmployeeService {
         return rowsEffected;
     }
 
-    public int deleteEmployee(long empId) {
+    public long deleteEmployee(long empId) {
         String sql = "delete from employee where empId=?";
-        int rowsEffected = -1;
+        long rowsEffected = -1;
         try (Connection conn = DBConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, empId);

@@ -6,6 +6,12 @@ import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
+import org.example.config.DBConfig;
+import org.example.entity.DataBase;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class AppListener implements ServletContextListener, HttpSessionListener, ServletRequestListener {
 
@@ -31,6 +37,19 @@ public class AppListener implements ServletContextListener, HttpSessionListener,
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        Properties properties = new Properties();
+        try (InputStream input = AppListener.class.getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                throw new RuntimeException("Unable to find db.properties");
+            }
+            properties.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load database properties", e);
+        }
+        DataBase.URL=properties.getProperty("db.URL");
+        DataBase.USER=properties.getProperty("db.USER");
+        DataBase.PASSWORD=properties.getProperty("db.PASSWORD");
+        DBConfig.initializeDatabase();
         System.out.println("Application Started");
     }
 
