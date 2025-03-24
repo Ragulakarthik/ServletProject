@@ -8,20 +8,20 @@ import java.util.Iterator;
 import java.util.List;
 
 public class InMemoryEmployeeServiceImpl implements EmployeeService {
-    private static List<Employee> listOfEmployees = new ArrayList<>();
+    private final List<Employee> listOfEmployees = new ArrayList<>();
 
-    public long addNewEmployee(Employee employee) {
+    public synchronized long addNewEmployee(Employee employee) {
         employee.setEmpId(Employee.idCounter++);
         listOfEmployees.add(employee);
         return employee.getEmpId();
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return listOfEmployees;
+    public synchronized List<Employee> getAllEmployees() {
+        return new ArrayList<>(listOfEmployees); // Returning a copy to prevent modification outside
     }
 
-    public long updateEmployee(Employee updatedEmp) {
+    public synchronized long updateEmployee(Employee updatedEmp) {
         for (Employee emp : listOfEmployees) {
             if (emp.getEmpId() == updatedEmp.getEmpId()) {
                 emp.setName(updatedEmp.getName());
@@ -33,7 +33,7 @@ public class InMemoryEmployeeServiceImpl implements EmployeeService {
         return -1;
     }
 
-    public long deleteEmployee(long empId) {
+    public synchronized long deleteEmployee(long empId) {
         Iterator<Employee> iterator = listOfEmployees.iterator();
         while (iterator.hasNext()) {
             Employee emp = iterator.next();
