@@ -18,7 +18,7 @@ public class DBEmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Employee employee = objectMapper.readValue(req.getInputStream(), Employee.class);
-            int rowsEffected = dbService.addNewEmployee(employee);
+            long rowsEffected = dbService.addNewEmployee(employee);
             if (rowsEffected > 0) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");
@@ -57,7 +57,7 @@ public class DBEmployeeServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Employee employee = objectMapper.readValue(req.getInputStream(), Employee.class);
-            int rowsEffected = dbService.updateEmployee(employee);
+            long rowsEffected = dbService.updateEmployee(employee);
             if (rowsEffected > 0) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");
@@ -78,7 +78,7 @@ public class DBEmployeeServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             long empId = Long.parseLong(req.getParameter("empId"));
-            int rowsEffected = dbService.deleteEmployee(empId);
+            long rowsEffected = dbService.deleteEmployee(empId);
             if (rowsEffected > 0) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.setContentType("text/plain");

@@ -8,19 +8,17 @@ import org.example.entity.Employee;
 import org.example.serviceImpl.InMemoryEmployeeServiceImpl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryEmployeeServlet extends HttpServlet {
     private static final InMemoryEmployeeServiceImpl inMemoryServiceImpl = new InMemoryEmployeeServiceImpl();
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final List<Employee> listOfEmployees = new ArrayList<>();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Employee employee = objectMapper.readValue(req.getInputStream(), Employee.class);
-            inMemoryServiceImpl.addNewEmployee(employee, listOfEmployees);
+            long empId =inMemoryServiceImpl.addNewEmployee(employee);
             resp.setContentType("application/json");
             resp.getWriter().write(objectMapper.writeValueAsString(employee));
         } catch (Exception e) {
@@ -32,15 +30,24 @@ public class InMemoryEmployeeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        resp.getWriter().write(objectMapper.writeValueAsString(listOfEmployees));
+        try {
+            List<Employee> employeeList=inMemoryServiceImpl.getAllEmployees();
+            resp.setContentType("application/json");
+            resp.getWriter().write(objectMapper.writeValueAsString(employeeList));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.getWriter().write(e.getMessage());
+        }
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Employee updatedEmp = objectMapper.readValue(req.getInputStream(), Employee.class);
-            if (inMemoryServiceImpl.updateEmployee(updatedEmp, listOfEmployees)) {
+            if (inMemoryServiceImpl.updateEmployee(updatedEmp)!=-1) {
                 resp.setContentType("application/json");
                 resp.getWriter().write(objectMapper.writeValueAsString(updatedEmp));
             } else {
@@ -58,7 +65,7 @@ public class InMemoryEmployeeServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             long empId = Long.parseLong(req.getParameter("empId"));
-            if (inMemoryServiceImpl.deleteEmployee(empId, listOfEmployees)) {
+            if (inMemoryServiceImpl.deleteEmployee(empId)!=-1) {
                 resp.setContentType("application/json");
                 resp.getWriter().write("{\"message\": \"Employee deleted successfully\"}");
             } else {

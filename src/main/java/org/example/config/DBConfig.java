@@ -1,20 +1,14 @@
 package org.example.config;
 
+import org.example.entity.DataBase;
 import java.sql.*;
 
 public class DBConfig {
-    private static final String URL = "jdbc:mysql://localhost:3306/Employee";
-    private static final String USER = "karthikragula";
-    private static final String PASSWORD = "R.Karthik@04";
-
-    static {
-        initializeDatabase();
-    }
 
     public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(DataBase.URL, DataBase.USER, DataBase.PASSWORD);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Database connection failed!", e);
